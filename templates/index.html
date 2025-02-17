@@ -1,0 +1,15 @@
+<h1>SVG Images</h1>
+{% if files %}
+    <ul>
+        {% for file in files %}
+            {% if file.endswith('.svg') %}
+                <li>
+                    <a href="/images/{{ file }}">{{ file }}</a>
+                    <img src="/images/{{ file }}" alt="{{ file }}" width="50" height="50">
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No SVG images found.</p>
+{% endif %}

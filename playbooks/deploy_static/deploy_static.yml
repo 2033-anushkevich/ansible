@@ -1,0 +1,7 @@
+- hosts: localhost
+
+  roles:
+  - deploy_static
+
+  vars_files:
+    - "vars/static.yml"

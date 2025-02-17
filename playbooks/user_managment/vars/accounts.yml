@@ -1,0 +1,8 @@
+users:
+  - name: i.ivanov
+    full_name: "Ivan Ivanov"
+    shell: "/bin/bash"
+    state: present
+    ssh_key: true
+    password: false
+    groups: ["sudo"]

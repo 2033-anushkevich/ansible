@@ -1,0 +1,37 @@
+- name: Create user
+  user:
+    name: "{{ item.name }}"
+    shell: "{{ item.shell }}"
+    state: "{{ item.state }}"
+    groups: "{{ item.groups }}"
+    comment: "{{ item.full_name }}"
+    append: yes
+  with_items: "{{ users }}"
+  when: item.state == "present"
+
+- name: Delete user
+  user:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items: "{{ users }}"
+  when: item.state == "absent"
+  register: result
+
+
+- name: Add SSH key
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ lookup('file', 'roles/keys/{{ item.name }}.pub') }}"
+    state: present
+  with_items: "{{ users }}"
+  when: item.ssh_key
+
+- include_vars: vars/passwords.yml
+- name: Set user password from vault
+  user:
+    name: "{{ item.name }}"
+    password: "{{ passwords[item.name] | password_hash('sha512') }}"
+  with_items: "{{ users }}"
+  when: item.password
+
+

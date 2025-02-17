@@ -1,0 +1,9 @@
+- hosts: all
+  remote_user: ansibleuser
+  become: yes
+
+  roles:
+  - installing_packages
+
+  vars_files:
+    - "vars/packages.yml"

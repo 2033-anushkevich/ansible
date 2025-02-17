@@ -1,0 +1,43 @@
+---
+- name: Ensure SSH config file exists
+  file:
+    path: /etc/ssh/sshd_config
+    state: file
+    mode: 0644
+
+- name: Configure SSH settings
+  block:
+    - name: Disable root login
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin'
+        line: "PermitRootLogin {{ settings.root_login }}"
+        state: present
+
+    - name: Disable empty passwords
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication'
+        line: "PasswordAuthentication {{ settings.password_authentication }}"
+        state: present
+
+    - name: Set SSH LogLevel
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^LogLevel'
+        line: "LogLevel {{ settings.log_level }}"
+        state: present
+
+    - name: Disable X11Forwarding
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^X11Forwarding'
+        line: "X11Forwarding {{ settings.x11_forwarding }}"
+        state: present
+  when: settings is defined
+
+
+- name: Restart SSH service
+  service:
+    name: ssh
+    state: restarted

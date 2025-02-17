@@ -1,0 +1,9 @@
+- hosts: all
+  remote_user: ansibleuser
+  become: yes
+
+  roles:
+  - ssh_settings
+
+  vars_files:
+    - "vars/settings.yml"

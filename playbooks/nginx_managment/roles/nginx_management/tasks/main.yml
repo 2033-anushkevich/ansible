@@ -1,0 +1,34 @@
+---
+- name: Install Nginx (Debian/Ubuntu)
+  apt:
+    name: nginx
+    state: present
+  when: ansible_pkg_mgr == 'apt'
+
+- name: Install Nginx (CentOS/RHEL)
+  yum:
+    name: nginx
+    state: present
+  when: ansible_pkg_mgr == 'yum'
+
+- name: Install Nginx (Fedora)
+  dnf:
+    name: nginx
+    state: present
+  when: ansible_pkg_mgr == 'dnf'
+
+- name: Create config
+  template:
+    src: template/nginx.conf.template
+    dest: /etc/nginx/sites-available/default
+
+- name: Check status Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+    
+- name: Reload Nginx
+  service:
+    name: nginx
+    state: reloaded

@@ -1,0 +1,30 @@
+{% for entry in nginxserver %}
+server {
+    listen {{ entry.port }};
+    server_name {{ entry.servername }};
+
+{% if entry.expires is defined %}
+    # Settings gzip
+    gzip {{ entry.gzip }};
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+    gzip_min_length 1000;
+{% endif %}
+    # Logging requests
+    access_log /var/log/nginx/{{ entry.servername }}_access.log;
+    error_log /var/log/nginx/{{ entry.servername }}_error.log;
+
+    location / {
+        proxy_pass http://localhost:5000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    location ~^/images/(.*)\.(jpg|jpeg|png|gif|css|js|ico|svg)$ {
+        proxy_pass http://localhost:5000/images/$1.$2;
+        expires {{ entry.expires }};
+        add_header Cache-Control "public";
+}
+    
+}
+{% endfor %}

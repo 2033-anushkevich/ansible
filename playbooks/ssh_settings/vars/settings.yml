@@ -1,0 +1,5 @@
+settings:
+  root_login: "no"
+  password_authentication: "no"
+  log_level: "VERBOSE"
+  x11_forwarding: "no"

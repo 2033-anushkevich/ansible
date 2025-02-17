@@ -1,0 +1,5 @@
+additional_utilities:
+  - htop
+  - ncdu
+  - git
+  - nano

@@ -1,0 +1,9 @@
+- hosts: all
+  remote_user: ansibleuser
+  become: yes
+
+  roles:
+  - nginx_management
+
+  vars_files:
+    - "vars/nginxserver_prod.yml"

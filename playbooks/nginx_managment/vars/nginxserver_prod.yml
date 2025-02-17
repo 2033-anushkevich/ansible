@@ -1,0 +1,8 @@
+"nginxserver": [
+{
+  "servername": "localhost",
+  "port": "80",
+  "gzip": "on",
+  "expires": "1h",
+},
+]

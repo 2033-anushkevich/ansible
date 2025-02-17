@@ -1,0 +1,22 @@
+---
+- name: Check if zsh is installed
+  package:
+    name: zsh
+    state: present
+  when: item.shell == '/bin/zsh'
+  with_items: "{{ users }}"
+  register: zsh_install_result
+
+- name: Install ohmyzsh
+  git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: ~/.ohmyzsh
+    update: yes
+  when: item.shell == '/bin/zsh' and zsh_install_result.changed
+  with_items: "{{ users }}"
+
+- name: Set zsh as default shell
+  shell: chsh -s /bin/zsh {{ item.name }}
+  when: item.shell == '/bin/zsh' and zsh_install_result.changed
+  with_items: "{{ users }}"
+  become: true

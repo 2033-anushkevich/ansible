@@ -1,0 +1,2 @@
+[docker]
+betsoft1.online ansible_port=2222

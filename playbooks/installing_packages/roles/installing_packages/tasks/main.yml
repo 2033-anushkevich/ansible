@@ -1,0 +1,30 @@
+---
+- name: Update apt cache (Debian/Ubuntu)
+  apt:
+    update_cache: yes
+  when: ansible_pkg_mgr == 'apt'
+
+- name: Update yum cache (CentOS/RHEL)
+  yum:
+    update_cache: yes
+  when: ansible_pkg_mgr == 'yum'
+
+- name: Update dnf cache (Fedora)
+  dnf:
+    update_cache: yes
+  when: ansible_pkg_mgr == 'dnf'
+
+- name: Update packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ additional_utilities }}"
+  when: ansible_pkg_mgr in ['apt', 'yum', 'dnf']
+
+- name: Install additional utilities
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ additional_utilities }}"
+  when: ansible_pkg_mgr in ['apt', 'yum', 'dnf']
+

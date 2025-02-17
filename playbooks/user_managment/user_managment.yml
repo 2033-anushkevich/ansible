@@ -1,0 +1,10 @@
+- hosts: all
+  remote_user: ansibleuser
+  become: yes
+
+  roles:
+  - user_management
+  - user_management_shell
+
+  vars_files:
+    - "vars/accounts.yml"
