@@ -1,5 +1,5 @@
 ### Запуск плейбуков #1 и #2 по ТЗ
-1. файле vars/accounts.yml вносим данные пользователя в указаном формате
+1. В файле vars/accounts.yml вносим данные пользователя в указаном формате
 ```commandline
   - name: i.mask
     full_name: "Ilon Mask"
