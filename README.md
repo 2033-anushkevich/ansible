@@ -30,3 +30,5 @@ cd ansible && docker compose up -d
 ```commandline
 ssh betsoft1.online -p 2222
 ```
+
+### Рабочий домен betsoft1.online
